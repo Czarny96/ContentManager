@@ -16,7 +16,7 @@ In future ...
     5. Azure Blob storage
     6. Migrations
     7. SQL Server
-    8. Change history
+    8. Check history
 2. Frontend (must)
     1. Angular
     2. Sign in/up page

@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  database:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    container_name: content-manager-database
+    ports:
+      - '1433:1433'
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Qwerty123#
+      - MSSQL_PID=Developer
+    volumes:
+      - 'content-manager-database-data:/var/opt/mssql'
+    networks:
+      - content-manager-backend
+
+volumes:
+  content-manager-database-data:
+
+networks:
+  content-manager-backend:

@@ -3,6 +3,7 @@
     <ProjectReference Include="..\ContentManager.Domain\ContentManager.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="MediatR" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
   </ItemGroup>
 </Project>

@@ -16,6 +16,7 @@ public static class StartupExtensions
         );
 
         services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<ContentManagerDbContext>());
+        services.AddScoped<IDbContext>(provider => provider.GetRequiredService<ContentManagerDbContext>());
             
         services.AddMediatR(config =>
         {

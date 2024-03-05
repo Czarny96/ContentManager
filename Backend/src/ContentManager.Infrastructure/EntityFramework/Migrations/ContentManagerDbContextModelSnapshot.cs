@@ -31,15 +31,41 @@ namespace ContentManager.Infrastructure.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
+                    b.HasAlternateKey("Email");
+
                     b.ToTable("User", "User");
+                });
+
+            modelBuilder.Entity("ContentManager.Domain.Users.User", b =>
+                {
+                    b.OwnsOne("ContentManager.Domain.Users.Password", "Password", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<Guid>("Salt")
+                                .HasColumnType("uniqueidentifier")
+                                .HasColumnName("Password_Salt");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Password_Value");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("User", "User");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.Navigation("Password")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

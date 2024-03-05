@@ -13,7 +13,7 @@ builder.Services.AddJwt(builder.Configuration, !builder.Environment.IsDevelopmen
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwagger();
 
-builder.Services.Application();
+builder.Services.Application(builder.Configuration);
 builder.Services.Infrastructure(builder.Configuration.GetConnectionString("ContentManager")!);
 
 var app = builder.Build();

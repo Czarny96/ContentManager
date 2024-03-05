@@ -21,4 +21,8 @@
       <ProjectReference Include="..\ContentManager.Infrastructure\ContentManager.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Options\" />
+    </ItemGroup>
+
 </Project>

@@ -1,5 +1,7 @@
 using System.Reflection;
 using ContentManager.Application.Abstractions;
+using ContentManager.Application.Users;
+using ContentManager.Domain;
 using ContentManager.Infrastructure.EntityFramework;
 using ContentManager.Infrastructure.MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +25,9 @@ public static class StartupExtensions
             config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
             config.AddOpenBehavior(typeof(Validator<,>));
         });
+
+        services.AddScoped<IUserRepository, UserRepository>();
+        
         return services;
     }
 }

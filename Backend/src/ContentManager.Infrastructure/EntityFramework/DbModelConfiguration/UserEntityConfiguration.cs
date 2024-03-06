@@ -23,13 +23,11 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
         {
             x
                 .Property(p => p.Value)
-                .HasColumnType("nvarchar(max)")
                 .HasColumnName("Password_Value")
                 .IsRequired();
             
             x
                 .Property(p => p.Salt)
-                .HasColumnType("uniqueidentifier")
                 .HasColumnName("Password_Salt")
                 .IsRequired();
         });

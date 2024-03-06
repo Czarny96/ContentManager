@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace ContentManager.Domain.Users;
@@ -35,21 +33,9 @@ public sealed partial record Password
             throw new ArgumentException("Invalid password salt");
         }
 
-        var hashPassword = HashPassword(value, salt.ToByteArray());
+        var hashPassword = BCrypt.Net.BCrypt.HashPassword(value, 13);
         
-        Value = hashPassword!.ToString();
+        Value = hashPassword;
         Salt = salt;
-    }
-
-    private byte[] HashPassword(string password, byte[] salt)
-    {
-        // ToDo: Add XOR for salt
-        var passwordBytes = Encoding.Unicode.GetBytes(password);
-        var passwordWithSalt = new byte[salt.Length + passwordBytes.Length];
-        
-        Buffer.BlockCopy(passwordBytes, 0, passwordWithSalt, 0, password.Length);
-        Buffer.BlockCopy(salt, 0, passwordWithSalt, 0, salt.Length);
-
-        return System.Security.Cryptography.SHA512.HashData(passwordWithSalt);
     }
 }

@@ -1,6 +1,8 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Xml.Serialization;
+using ContentManager.Application.Abstractions;
 using ContentManager.Domain;
 using ContentManager.Domain.Users;
 using ContentManager.Rest.Api.Options;
@@ -24,10 +26,13 @@ public class CreateUserHandler : IRequestHandler<CreateUser, CreateUserResponse>
     private readonly JwtOptions _jwtOptions; 
     
     private readonly IUserRepository _userRepository;
-    public CreateUserHandler(IOptions<JwtOptions> jwtOptions, IUserRepository userRepository)
+    private readonly IUnitOfWork _unitOfWork;
+    
+    public CreateUserHandler(IOptions<JwtOptions> jwtOptions, IUserRepository userRepository, IUnitOfWork unitOfWork)
     {
         _jwtOptions = jwtOptions.Value;
         _userRepository = userRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<CreateUserResponse> Handle(CreateUser request, CancellationToken cancellationToken)
@@ -67,10 +72,13 @@ public class CreateUserHandler : IRequestHandler<CreateUser, CreateUserResponse>
             }),
             Expires = DateTime.UtcNow.AddHours(1), // ToDo: Add abstraction for date
             SigningCredentials =
-                new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
+                new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
+
+        await _userRepository.Add(newUser, cancellationToken);
+        await _unitOfWork.CommitAsync(cancellationToken);
 
         return new(tokenHandler.WriteToken(token));
     }

@@ -16,11 +16,10 @@ public class UserController : ControllerBase
     }
     
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(CreateUserResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateUser([FromBody] CreateUser command, CancellationToken cancellationToken)
+    public async Task<CreateUserResponse> CreateUser([FromBody] CreateUser command, CancellationToken cancellationToken)
     {
-        await _mediator.Send(command, cancellationToken);
-        return NoContent();
+        return await _mediator.Send(command, cancellationToken);
     }
 }

@@ -1,14 +1,7 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using System.Xml.Serialization;
 using ContentManager.Application.Abstractions;
 using ContentManager.Domain;
 using ContentManager.Domain.Users;
-using ContentManager.Rest.Api.Options;
 using MediatR;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using ArgumentException = System.ArgumentException;
 
 namespace ContentManager.Application.Users;
@@ -23,15 +16,18 @@ public record CreateUserResponse(string Token);
 
 public class CreateUserHandler : IRequestHandler<CreateUser, CreateUserResponse>
 {
-    private readonly JwtOptions _jwtOptions; 
     
     private readonly IUserRepository _userRepository;
+    private readonly IPasswordService _passwordService;
+    private readonly IJwtService _jwtService;
     private readonly IUnitOfWork _unitOfWork;
     
-    public CreateUserHandler(IOptions<JwtOptions> jwtOptions, IUserRepository userRepository, IUnitOfWork unitOfWork)
+    public CreateUserHandler(IUserRepository userRepository, IPasswordService passwordService, 
+        IJwtService jwtService, IUnitOfWork unitOfWork)
     {
-        _jwtOptions = jwtOptions.Value;
         _userRepository = userRepository;
+        _passwordService = passwordService;
+        _jwtService = jwtService;
         _unitOfWork = unitOfWork;
     }
 
@@ -51,35 +47,20 @@ public class CreateUserHandler : IRequestHandler<CreateUser, CreateUserResponse>
             throw new ArgumentException("User with this email address already exists.");
         }
 
+        //var hashPassword = _passwordService.EncryptPassword(request.Password);
+        
         var newUser =
             new User(
                 new UserId(),
                 new EmailAddress(request.Email),
                 new Password(request.Password, Guid.NewGuid())
             );
-
-        // ToDo: Move generate token to infrastructure
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_jwtOptions.Secret);
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, newUser.Email.Email),
-                new Claim("id", newUser.Id.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, newUser.Email.Email)
-            }),
-            Expires = DateTime.UtcNow.AddHours(1), // ToDo: Add abstraction for date
-            SigningCredentials =
-                new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        };
-
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-
+        
         await _userRepository.Add(newUser, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);
 
-        return new(tokenHandler.WriteToken(token));
+        var token = _jwtService.GenerateToken(newUser);
+        
+        return new(token);
     }
 }

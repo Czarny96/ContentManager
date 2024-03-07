@@ -1,9 +1,11 @@
 using System.Reflection;
+using ContentManager.Application;
 using ContentManager.Application.Abstractions;
 using ContentManager.Application.Users;
 using ContentManager.Domain;
 using ContentManager.Infrastructure.EntityFramework;
 using ContentManager.Infrastructure.MediatR;
+using ContentManager.Infrastructure.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,6 +29,8 @@ public static class StartupExtensions
         });
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IPasswordService, PasswordService>();
+        services.AddScoped<IJwtService, JwtServices>();
         
         return services;
     }

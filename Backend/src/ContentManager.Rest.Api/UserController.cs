@@ -1,11 +1,14 @@
 using ContentManager.Application.Users;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContentManager.Rest.Api;
 
 [ApiController]
 [Route("users")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class UserController : ControllerBase
 {
     private IMediator _mediator;

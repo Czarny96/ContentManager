@@ -31,6 +31,10 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
                 .HasColumnName("Password_Salt")
                 .IsRequired();
         });
+        
+        builder
+            .Property(x => x.Status)
+            .HasConversion(x => x.Id, x => )
 
         builder.HasKey(x => x.Id);
         builder.HasAlternateKey(x => x.Email);

@@ -1,3 +1,4 @@
+using ContentManager.Domain.Abstractions;
 using ContentManager.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -31,11 +32,11 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
                 .HasColumnName("Password_Salt")
                 .IsRequired();
         });
-        
+
         builder
             .Property(x => x.Status)
-            .HasConversion(x => x.Id, x => )
-
+            .HasConversion(x => x.Id, x => Enumeration.FromId<UserStatus>(x));
+            
         builder.HasKey(x => x.Id);
         builder.HasAlternateKey(x => x.Email);
         

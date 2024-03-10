@@ -53,7 +53,8 @@ public class CreateUserHandler : IRequestHandler<CreateUser, CreateUserResponse>
             new User(
                 new UserId(),
                 new EmailAddress(request.Email),
-                new Password(request.Password, Guid.NewGuid())
+                new Password(request.Password, Guid.NewGuid()),
+                UserStatus.Owner
             );
         
         await _userRepository.Add(newUser, cancellationToken);

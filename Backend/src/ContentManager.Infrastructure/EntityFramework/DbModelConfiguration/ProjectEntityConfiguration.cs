@@ -13,9 +13,17 @@ public class ProjectEntityConfiguration : IEntityTypeConfiguration<Project>
             .HasConversion(x => x.Id, x => new ProjectId(x))
             .IsRequired()
             .IsUnicode();
-        
+
         builder
             .Property(x => x.Name)
-            .P
+            .HasConversion(x => x.Value, x => new ProjectName(x))
+            .IsRequired()
+            .IsUnicode();
+        
+        builder.OwnsMany(x => x.Permission, permission =>
+        {
+           permission
+               .Property(p => p.)
+        });
     }
 }

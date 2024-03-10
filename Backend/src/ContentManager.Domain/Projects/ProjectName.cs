@@ -2,7 +2,7 @@ namespace ContentManager.Domain.Projects;
 
 public sealed record ProjectName
 {
-    public string? Value { get; private set; }
+    public string Value { get; private set; }
 
     public ProjectName(string value)
     {

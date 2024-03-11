@@ -2,8 +2,8 @@ using ContentManager.Domain.Users;
 
 namespace ContentManager.Domain.Projects;
 
-public sealed class ProjectPermission(ProjectId projectId, UserId userId)
+public sealed class ProjectPermission(UserId userId, ProjectPermissionType projectPermission)
 {
-    public ProjectId ProjectId { get; private set; } = projectId;
     public UserId UserId { get; private set; } = userId;
+    public ProjectPermissionType PermissionType { get; private set; } = projectPermission;
 }

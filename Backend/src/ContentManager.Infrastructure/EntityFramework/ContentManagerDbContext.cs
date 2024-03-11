@@ -14,6 +14,6 @@ public class ContentManagerDbContext(DbContextOptions<ContentManagerDbContext> o
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.ApplyConfiguration(new UserEntityConfiguration());
+        modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
     }
 }

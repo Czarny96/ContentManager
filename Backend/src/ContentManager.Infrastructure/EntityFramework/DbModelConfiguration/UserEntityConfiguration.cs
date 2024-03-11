@@ -1,4 +1,5 @@
 using ContentManager.Domain.Abstractions;
+using ContentManager.Domain.Projects;
 using ContentManager.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -20,22 +21,27 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
             .IsRequired()
             .IsUnicode();
 
-        builder.OwnsOne(x => x.Password, x =>
-        {
-            x
-                .Property(p => p.Value)
-                .HasColumnName("Password_Value")
-                .IsRequired();
-            
-            x
-                .Property(p => p.Salt)
-                .HasColumnName("Password_Salt")
-                .IsRequired();
-        });
+        builder
+            .Property(x => x.Password)
+            .HasConversion(x => x.Value, x => new Password(x));
+        
+        // builder.OwnsOne(x => x.Password, x =>
+        // {
+        //     x
+        //         .Property(p => p.Value)
+        //         .HasColumnName("Password_Value")
+        //         .IsRequired();
+        //     
+        //     x
+        //         .Property(p => p.Salt)
+        //         .HasColumnName("Password_Salt")
+        //         .IsRequired();
+        // });
 
         builder
             .Property(x => x.Status)
-            .HasConversion(x => x.Id, x => Enumeration.FromId<UserStatus>(x));
+            .HasConversion(x => x.Id, x => Enumeration.FromId<UserStatus>(x))
+            .IsRequired();
             
         builder.HasKey(x => x.Id);
         builder.HasAlternateKey(x => x.Email);

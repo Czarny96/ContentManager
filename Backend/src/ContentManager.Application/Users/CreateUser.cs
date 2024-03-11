@@ -1,5 +1,6 @@
 using ContentManager.Application.Abstractions;
 using ContentManager.Domain;
+using ContentManager.Domain.Projects;
 using ContentManager.Domain.Users;
 using MediatR;
 using ArgumentException = System.ArgumentException;
@@ -53,8 +54,8 @@ public class CreateUserHandler : IRequestHandler<CreateUser, CreateUserResponse>
             new User(
                 new UserId(),
                 new EmailAddress(request.Email),
-                new Password(request.Password, Guid.NewGuid()),
-                UserStatus.Owner
+                new Password(request.Password/*, Guid.NewGuid()*/),
+                UserStatus.Activated
             );
         
         await _userRepository.Add(newUser, cancellationToken);

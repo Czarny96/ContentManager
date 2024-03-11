@@ -4,9 +4,10 @@ namespace ContentManager.Domain.Users;
 
 public sealed record UserStatus : Enumeration
 {
-    public static UserStatus Owner = new(0, nameof(Owner));
-    public static UserStatus Administrator = new(1, nameof(Administrator));
-    public static UserStatus Editor = new(2, nameof(Editor));
-    
-    private UserStatus(ushort id, string name) : base(id, name) { }
+    public static readonly UserStatus Activated = new(0, nameof(Activated));
+    public static readonly UserStatus Deactivated = new(1, nameof(Deactivated));
+
+    private UserStatus(ushort id, string name) : base(id, name)
+    {
+    }
 }

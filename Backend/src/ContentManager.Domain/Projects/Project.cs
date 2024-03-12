@@ -1,13 +1,10 @@
-using ContentManager.Domain.Users;
-
 namespace ContentManager.Domain.Projects;
 
-public class Project(ProjectId projectId, ProjectName name, UserStatus status, IReadOnlyCollection<ProjectPermission> permission)
+public class Project(ProjectId id, ProjectName name)
 {
-    private readonly List<ProjectPermission> _projectPermissions = permission.ToList();
+    private readonly List<ProjectPermission> _projectPermissions = new();
     
-    public ProjectId Id { get; private set; } = projectId;
+    public ProjectId Id { get; private set; } = id;
     public ProjectName Name { get; private set; } = name;
-    public UserStatus Status { get; private set; } = status;
     public IReadOnlyCollection<ProjectPermission> Permissions => _projectPermissions;
 }

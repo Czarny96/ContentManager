@@ -3,7 +3,7 @@ using ContentManager.Domain.Users;
 using ContentManager.Infrastructure.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
-namespace ContentManager.Infrastructure;
+namespace ContentManager.Infrastructure.Users;
 
 public class UserRepository : IUserRepository
 {

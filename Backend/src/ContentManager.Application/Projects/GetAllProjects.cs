@@ -1,21 +1,44 @@
 using ContentManager.Domain.Projects;
+using ContentManager.Domain.Users;
 using MediatR;
 
 namespace ContentManager.Application.Projects;
 
-public record GetAllProjects() : IRequest;
+public record GetAllProjects : IRequest<IReadOnlyCollection<GetAllProjectsResponse>;
 
-public class GetAllProjectsHandler : IRequestHandler<GetAllProjects>
+public record GetAllProjectsResponse(
+    Guid Id,
+    string Name,
+    ProjectStatus Status
+);
+
+public class GetAllProjectsHandler : IRequestHandler<GetAllProjects, IReadOnlyCollection<GetAllProjectsResponse>
 {
     private readonly IProjectRepository _projectRepository;
 
-    public GetAllProjects(IProjectRepository projectsRepository)
+    public GetAllProjectsHandler(IProjectRepository projectsRepository)
     {
         _projectRepository = projectsRepository;
     }
     
-    public Task Handle(GetAllProjects request, CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<GetAllProjectsResponse>> Handle(GetAllProjects request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        // ToDo: Get current user
+        var projects =  _projectRepository.GetAll(new UserId(Guid.NewGuid()), cancellationToken);
+
+        if (projects.Count == 0)
+        {
+            return Array.Empty<GetAllProjectsResponse>();
+        }
+
+        return projects.Select(x =>
+            new GetAllProjectsResponse(
+                x.Id.Id,
+                x.Name.Value,
+                (ProjectStatus)x.Status.Id
+            )
+        )
+        .ToList()
+        .AsReadOnly();
     }
 }

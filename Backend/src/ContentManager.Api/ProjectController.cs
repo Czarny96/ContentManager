@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ContentManager.Rest.Api;
+namespace ContentManager.Api;
 
 [ApiController]
 [Route("projects")]

@@ -14,11 +14,10 @@ internal class ProjectRepository : IProjectRepository
         _context = context;
     }
 
-    public IReadOnlyCollection<Project> GetAll(UserId userId,
-        IReadOnlyCollection<ProjectPermissionType> permissionTypes, CancellationToken cancellationToken) =>
+    public IReadOnlyCollection<Project> GetAll(UserId userId, CancellationToken cancellationToken) =>
         _context
             .Set<Project>()
-            .Where(x => x.Permissions.Any(x => x.UserId == userId && permissionTypes.Contains(x.PermissionType)))
+            .Where(x => x.Permissions.Any(x => x.UserId == userId))
             .ToList()
             .AsReadOnly();
 

@@ -1,7 +1,7 @@
 using ContentManager.Application;
 using ContentManager.Infrastructure;
 using ContentManager.Infrastructure.EntityFramework;
-using ContentManager.Rest.Api;
+using ContentManager.Api;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -31,6 +31,11 @@ public class ProjectEntityConfiguration : IEntityTypeConfiguration<Project>
             permission.ToTable(nameof(ProjectPermission), "Project");
         });
 
+        builder
+            .Property(x => x.Status)
+            .HasConversion(x => x.Id, x => Enumeration.FromId<ProjectStatus>(x))
+            .IsRequired();
+        
         builder.HasKey(x => x.Id);
         builder.ToTable(nameof(Project), "Project");
     }

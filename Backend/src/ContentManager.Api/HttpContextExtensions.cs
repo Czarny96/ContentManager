@@ -1,4 +1,4 @@
-namespace ContentManager.Rest.Api;
+namespace ContentManager.Api;
 
 public static class HttpContextExtensions
 {

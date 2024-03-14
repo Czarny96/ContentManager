@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentManager.Rest.Api", "src\ContentManager.Rest.Api\ContentManager.Rest.Api.csproj", "{8D0861A7-7340-4F97-BD36-6FEF274AA3B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentManager.Api", "src\ContentManager.Api\ContentManager.Api.csproj", "{8D0861A7-7340-4F97-BD36-6FEF274AA3B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentManager.Domain", "src\ContentManager.Domain\ContentManager.Domain.csproj", "{81D24A18-FB9C-41C4-A7D9-A0E46681F7A5}"
 EndProject

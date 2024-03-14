@@ -1,10 +1,10 @@
 using System.Text;
-using ContentManager.Rest.Api.Options;
+using ContentManager.Api.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-namespace ContentManager.Rest.Api;
+namespace ContentManager.Api;
 
 public static class StartupExtensions
 {

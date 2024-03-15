@@ -1,3 +1,4 @@
+using ContentManager.Application.Projects;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -18,8 +19,8 @@ public class ProjectController : ControllerBase
     }
     
     [HttpGet]
-    public IActionResult GetAll(CancellationToken cancellationToken)
+    public async Task<IEnumerable<GetAllProjectsResponse>> GetAll(CancellationToken cancellationToken)
     {
-        return _mediator.Send(new GetAllProjects(), cancellationToken);
+        return await _mediator.Send(new GetAllProjects(), cancellationToken);
     }
 }

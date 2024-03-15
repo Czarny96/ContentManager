@@ -3,6 +3,7 @@ using ContentManager.Application;
 using ContentManager.Application.Abstractions;
 using ContentManager.Application.Users;
 using ContentManager.Domain;
+using ContentManager.Domain.Projects;
 using ContentManager.Infrastructure.EntityFramework;
 using ContentManager.Infrastructure.MediatR;
 using ContentManager.Infrastructure.Users;
@@ -30,6 +31,7 @@ public static class StartupExtensions
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPasswordService, PasswordService>();
+        services.AddScoped<IProjectRepository, IProjectRepository>();
         services.AddScoped<IJwtService, JwtServices>();
         
         return services;

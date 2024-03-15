@@ -4,7 +4,7 @@ using MediatR;
 
 namespace ContentManager.Application.Projects;
 
-public record GetAllProjects : IRequest<IReadOnlyCollection<GetAllProjectsResponse>;
+public record GetAllProjects : IRequest<IReadOnlyCollection<GetAllProjectsResponse>>;
 
 public record GetAllProjectsResponse(
     Guid Id,
@@ -12,7 +12,7 @@ public record GetAllProjectsResponse(
     ProjectStatus Status
 );
 
-public class GetAllProjectsHandler : IRequestHandler<GetAllProjects, IReadOnlyCollection<GetAllProjectsResponse>
+public class GetAllProjectsHandler : IRequestHandler<GetAllProjects, IReadOnlyCollection<GetAllProjectsResponse>>
 {
     private readonly IProjectRepository _projectRepository;
 

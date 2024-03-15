@@ -1,5 +1,5 @@
 using System.Text;
-using ContentManager.Api.Options;
+using ContentManager.Rest.Api.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;

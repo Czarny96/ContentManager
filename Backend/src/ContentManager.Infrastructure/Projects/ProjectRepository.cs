@@ -1,7 +1,6 @@
 using ContentManager.Domain.Projects;
 using ContentManager.Domain.Users;
 using ContentManager.Infrastructure.EntityFramework;
-using Microsoft.EntityFrameworkCore;
 
 namespace ContentManager.Infrastructure.Projects;
 
@@ -21,4 +20,6 @@ internal class ProjectRepository : IProjectRepository
             .ToList()
             .AsReadOnly();
 
+    public async Task Add(Project project, CancellationToken cancellationToken) =>
+        await _context.Set<Project>().AddAsync(project, cancellationToken);
 }
